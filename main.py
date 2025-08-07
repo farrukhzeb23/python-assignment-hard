@@ -40,6 +40,10 @@ class Hangman:
                 display += "_ "
         return display
 
+    def display_incorrect_guesses(self):
+        print(
+            f"Incorrect guesses: {[letter for letter in self.guessed_letters if letter not in self.word_to_guess]}")
+
     def is_game_over(self):
         return self.wrong_guesses >= self.max_wrong_guesses or self.is_word_guessed()
 
@@ -48,6 +52,8 @@ class Hangman:
             guess = input("\nGuess a letter: ").lower()
             if len(guess) > 1 or guess.isdigit():
                 print("Please enter a single letter")
+            elif guess in self.guessed_letters:
+                print("Letter already guessed, try another letter")
             else:
                 return guess
 
@@ -84,6 +90,7 @@ class Hangman:
         while not self.is_game_over():
             self.greeting_message()
             self.display_hangman()
+            self.display_incorrect_guesses()
             print(self.display_word())
             guess = self.get_guess()
             self.make_guess(guess)
